@@ -1,0 +1,35 @@
+;; All available settings and its default values
+;; Check the settings documentation section for more details of each one.
+{:source-paths #{"src" "test"} ;; auto-resolved for deps.edn, project.clj or bb.edn projects
+ :source-aliases #{:dev :test}
+ :project-specs [] ;; Check the default at clojure-lsp.crawler/default-project-specs
+ :ignore-classpath-directories false
+ :lint-project-files-after-startup? true
+ :notify-references-on-file-change false ;; Disabled for now for performance reasons
+ :linters {:clj-kondo {:level :on
+                       :report-duplicates true
+                       :ns-exclude-regex ""}}
+ :clean {:ns-inner-blocks-indentation :next-line
+         :sort {:ns true
+                :require true
+                :import true
+                :refer {:max-line-length 80}}}
+ :hover {:hide-file-location? false
+         :clojuredocs true}
+ :code-lens {:segregate-test-references true}
+ :semantic-tokens? true
+ :use-metadata-for-privacy? false
+ :show-docs-arity-on-same-line? false
+ :auto-add-ns-to-new-files? true
+ :document-formatting? true
+ :document-range-formatting? true
+ :dependency-scheme :zip
+ :text-document-sync-kind :full
+ :cljfmt-config-path ".cljfmt.edn"
+ :cljfmt {}
+ :additional-snippets []
+ :classpath-config-paths []
+ :lens-segregate-test-references true ; deprecated, will be removed soon, use :code-lens :segregate-test-references instead.
+ :sqlite-db-path ".lsp/sqlite.db" ; deprecated, will be removed soon, use :cache-path instead.
+ :cache-path ".lsp/.cache"
+ :log-path "/tmp/clojure-lsp.*.out"}
