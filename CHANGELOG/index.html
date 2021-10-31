@@ -1652,20 +1652,31 @@
 <h2 id="unreleased">Unreleased<a class="headerlink" href="#unreleased" title="Permanent link">#</a></h2>
 <ul>
 <li>General</li>
+<li>Bump Graalvm from 21.2.0 to 21.3.0 improving binary performance/size</li>
+<li>Fix wrong parse of code when code contains namespaced maps like <code>#:foo{:bar 1}</code>. This issue was affecting a lot of features for example code actions.</li>
+<li>Bump datalevin from 0.5.26 to 0.5.27.</li>
+<li>Improve semantic tokens for dynamic vars, function definitions, namespaced and aliased keywords.</li>
+<li>Fix bug where <code>:source-paths</code> settings could be hot-reloaded with wrong-value.</li>
 <li>
-<p>Bump Graalvm from 21.2.0 to 21.3.0 improving binary performance/size</p>
+<p>Add support for <code>window/showDocument</code> LSP method, used on <code>create-test</code> command/code action after creating the test to show the test file.</p>
 </li>
 <li>
 <p>Editor</p>
 </li>
 <li>Deprecates setting <code>:show-docs-arity-on-same-line?</code> in favor of <code>:hover</code> <code>:arity-on-same-line?</code>.</li>
-<li>Add support to new LSP <code>LinkedEditingRange</code> feature.</li>
+<li>Add support to new LSP <code>LinkedEditingRange</code> feature. #341</li>
+<li>Improve suggested <code>Add require ...</code> code actions, this should make clojure-lsp smarter when user wants to add a missing require. #614</li>
+<li>Change <code>:notify-references-on-file-change</code> default from <code>false</code> to <code>true</code>, we had some performance improvements and I've been testing this for some time now and didn't see any new issues with that. This should improve a lot the UX when user change any code that is references on other files, updating the diagnostics for those files as well.</li>
+<li>Improve rename feature UX to output errors when it's not possible rename.</li>
+<li>Add new <code>Unwind thread once</code> and <code>Unwind whole thread</code> code actions to undo a thread call.</li>
+<li>Improve code actions performance request async all actions.</li>
 </ul>
 <h2 id="20211020-164947">2021.10.20-16.49.47<a class="headerlink" href="#20211020-164947" title="Permanent link">#</a></h2>
 <ul>
 <li>Editor</li>
 <li>Hot fix clojuredocs on graalvm native image.</li>
 <li>Bump clj-kondo to <code>2021.10.20-20211020.123254-3</code> to fix a specific issue with cljs.</li>
+<li>Implement support to return to client LSP Errors, making user UX better since clojure-lsp can return specific errors for specific exceptions.</li>
 </ul>
 <h2 id="20211020-130411">2021.10.20-13.04.11<a class="headerlink" href="#20211020-130411" title="Permanent link">#</a></h2>
 <ul>
@@ -2301,7 +2312,7 @@ when multiple files are changed at same time (rename, iedit, etc).</li>
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 23, 2021</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 31, 2021</span>
     
   </small>
 </div>
