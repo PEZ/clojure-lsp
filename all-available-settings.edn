@@ -4,11 +4,12 @@
  :source-aliases #{:dev :test}
  :project-specs [] ;; Check the default at clojure-lsp.crawler/default-project-specs
  :ignore-classpath-directories false
- :lint-project-files-after-startup? true
+ :lint-project-files-after-startup? true ;; false for clojure-lsp.api usage
  :notify-references-on-file-change true
  :linters {:clj-kondo {:level :on
                        :report-duplicates true
-                       :ns-exclude-regex ""}}
+                       :ns-exclude-regex ""
+                       :async-custom-lint? false}}
  :clean {:ns-inner-blocks-indentation :next-line
          :sort {:ns true
                 :require true
@@ -20,16 +21,21 @@
  :code-lens {:segregate-test-references true}
  :semantic-tokens? true
  :use-metadata-for-privacy? false
- :show-docs-arity-on-same-line? false ; deprecated, will be removed soon, use :hover :arity-on-same-line?
  :auto-add-ns-to-new-files? true
+ :keep-parens-when-threading? false
  :document-formatting? true
  :document-range-formatting? true
  :dependency-scheme :zip
  :text-document-sync-kind :full
  :cljfmt-config-path ".cljfmt.edn"
  :cljfmt {}
+ :stubs {:generation {:namespaces #{}
+                      :output-dir ".lsp/.cache/stubs"
+                      :java-command "java"}
+         :extra-dirs []}
  :additional-snippets []
  :classpath-config-paths []
+ :show-docs-arity-on-same-line? false ; deprecated, will be removed soon, use :hover :arity-on-same-line?
  :lens-segregate-test-references true ; deprecated, will be removed soon, use :code-lens :segregate-test-references instead.
  :sqlite-db-path ".lsp/sqlite.db" ; deprecated, will be removed soon, use :cache-path instead.
  :cache-path ".lsp/.cache"

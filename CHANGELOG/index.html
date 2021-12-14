@@ -502,6 +502,27 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#20211201-122816" class="md-nav__link">
+    2021.12.01-12.28.16
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20211116-165214" class="md-nav__link">
+    2021.11.16-16.52.14
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20211102-152447" class="md-nav__link">
+    2021.11.02-15.24.47
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#20211020-164947" class="md-nav__link">
     2021.10.20-16.49.47
   </a>
@@ -1086,6 +1107,27 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#20211201-122816" class="md-nav__link">
+    2021.12.01-12.28.16
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20211116-165214" class="md-nav__link">
+    2021.11.16-16.52.14
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#20211102-152447" class="md-nav__link">
+    2021.11.02-15.24.47
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#20211020-164947" class="md-nav__link">
     2021.10.20-16.49.47
   </a>
@@ -1652,13 +1694,80 @@
 <h2 id="unreleased">Unreleased<a class="headerlink" href="#unreleased" title="Permanent link">#</a></h2>
 <ul>
 <li>General</li>
+<li>Bump clj-kondo to <code>2021.12.02-20211212.204828-17</code>, supporting auto-load features.</li>
+<li>
+<p>Merge <code>:cljfmt</code> settings with <code>:cljfmt-config-path</code> if file path exists.</p>
+</li>
+<li>
+<p>Editor</p>
+</li>
+<li>Change call hierarchy to return selection range of usage, not function definition.</li>
+<li>Return <code>edits</code> in <code>codeAction/resolve</code> responses rather than <code>commands</code>. #655</li>
+<li>Improve <code>:linters :clj-kondo :async-custom-lint?</code> to avoid infinite loops.</li>
+<li>Add new custom LSP feature <strong>Test Tree</strong>, which shows all test hierarchy of a file. #653</li>
+<li>
+<p>Improve function name finding to consider other function definition types for some features. #666</p>
+</li>
+<li>
+<p>API/CLI</p>
+</li>
+<li>Exit process if any error during classpath lookup.</li>
+</ul>
+<h2 id="20211201-122816">2021.12.01-12.28.16<a class="headerlink" href="#20211201-122816" title="Permanent link">#</a></h2>
+<ul>
+<li>General</li>
+<li>Add support for LSP method <code>textDocument/prepareRename</code> which it's the proper way to check if the rename will work correctly. #642 </li>
+<li>Expose new custom method <code>clojure/cursorInfo/raw</code> for custom hack on current cursor information code. #645</li>
+<li>Support stub generation using <code>clj-easy/stub</code>, adding analysis and linting support for closed sources codes like Datomic. Check <code>:stubs</code> settings for more details. #637</li>
+<li>Handle config deep merge differently for collections, concating instead of overwriting. </li>
+<li>Fix unnecessary exception thrown on graal images during startup.</li>
+<li>Support <code>deps.edn</code> <code>:local/root</code> source-paths discovery, improving support for monorepo projects like <code>polylith</code>. #652</li>
+<li>New setting value for <code>:clean :sort :require</code>: <code>:lexicographic</code>. #654</li>
+<li>
+<p>Bump clj-kondo to <code>2021.10.20-20211126.151305-16</code>.</p>
+</li>
+<li>
+<p>Editor</p>
+</li>
+<li>Support completion on aliased keywords. #649</li>
+<li>Add new <code>Sort map keys</code> refactoring code action. #651</li>
+<li>Add new <code>Create function</code> code action, allowing to create a function on a existing namespace or creating a new namespace + the function. #646</li>
+<li>Improve <code>Extract function</code> refactoring to consider comments above current function. </li>
+<li>Experimental: new <code>:linters :clj-kondo :async-custom-lint?</code> setting, when true, scan unused-public-vars async improving lint/analysis UI feedback for huge buffers (&gt; ~1000 lines). Default <code>false</code>.</li>
+</ul>
+<p>This release was supported by <a href="https://www.clojuriststogether.org/">Clojurists Together</a></p>
+<h2 id="20211116-165214">2021.11.16-16.52.14<a class="headerlink" href="#20211116-165214" title="Permanent link">#</a></h2>
+<ul>
+<li>General</li>
+<li>Improve rename feature to not heavily rely on valid source-paths for most cases.</li>
+<li>Fix setTrace exception logs for graalvm native images.</li>
+<li>Huge improvements on namespaces renames and namespaces references find. #573</li>
+<li>Fix/Remove warnings during datalevin access.</li>
+<li>Improve freezing for some MacOS cases. #631</li>
+<li>
+<p>Bump clj-kondo to <code>2021.10.20-20211116.110002-7</code> improving code parsing and other fixes.</p>
+</li>
+<li>
+<p>Editor</p>
+</li>
+<li>Fix "Add require" code actions adding multiple requires instead of the selected.</li>
+<li>Improve "Add require" wording, making it easier to understand what each different action will do.</li>
+<li>Smart check all available refers to require, adding refer options to <code>Add require</code> code actions. #627</li>
+<li>Big improvements on keyword completions. #630</li>
+<li>Add setting <code>keep-parens-when-threading?</code> to keep parens for single arity functions when threading. #636</li>
+<li>Avoid adding duplicate requires when adding a new require via code action. #640</li>
+<li>Improve common known snippets to replace completion items, improving completion UX. #638</li>
+</ul>
+<p>This release was supported by <a href="https://www.clojuriststogether.org/">Clojurists Together</a></p>
+<h2 id="20211102-152447">2021.11.02-15.24.47<a class="headerlink" href="#20211102-152447" title="Permanent link">#</a></h2>
+<ul>
+<li>General</li>
 <li>Bump Graalvm from 21.2.0 to 21.3.0 improving binary performance/size</li>
 <li>Fix wrong parse of code when code contains namespaced maps like <code>#:foo{:bar 1}</code>. This issue was affecting a lot of features for example code actions.</li>
 <li>Bump datalevin from 0.5.26 to 0.5.27.</li>
 <li>Improve semantic tokens for dynamic vars, function definitions, namespaced and aliased keywords.</li>
-<li>Fix bug where <code>:source-paths</code> settings could be hot-reloaded with wrong-value.</li>
 <li>
-<p>Add support for <code>window/showDocument</code> LSP method, used on <code>create-test</code> command/code action after creating the test to show the test file.</p>
+<p>Fix bug where <code>:source-paths</code> settings could be hot-reloaded with wrong-value.</p>
 </li>
 <li>
 <p>Editor</p>
@@ -1668,9 +1777,20 @@
 <li>Improve suggested <code>Add require ...</code> code actions, this should make clojure-lsp smarter when user wants to add a missing require. #614</li>
 <li>Change <code>:notify-references-on-file-change</code> default from <code>false</code> to <code>true</code>, we had some performance improvements and I've been testing this for some time now and didn't see any new issues with that. This should improve a lot the UX when user change any code that is references on other files, updating the diagnostics for those files as well.</li>
 <li>Improve rename feature UX to output errors when it's not possible rename.</li>
+<li>Add support for <code>window/showDocument</code> LSP method, used on <code>create-test</code> command/code action after creating the test to show the test file.</li>
 <li>Add new <code>Unwind thread once</code> and <code>Unwind whole thread</code> code actions to undo a thread call.</li>
-<li>Improve code actions performance request async all actions.</li>
+<li>Improve code actions performance requesting async all actions.</li>
+<li>Add new LSP custom method <code>clojure/clojuredocs/raw</code> which takes a symbol and a namespace (both strings) and returns any Clojuredocs entry found, otherwise <code>null</code>.</li>
+<li>
+<p>Fix missing keywords rename/references for destructured keywords.</p>
+</li>
+<li>
+<p>CLI</p>
+</li>
+<li>Show error/warning message when a classpath scan fail during analysis. Fixes #626</li>
+<li>Add coloring to <code>diagnostics</code> output matching diagnostic severity.</li>
 </ul>
+<p>This release was supported by <a href="https://www.clojuriststogether.org/">Clojurists Together</a></p>
 <h2 id="20211020-164947">2021.10.20-16.49.47<a class="headerlink" href="#20211020-164947" title="Permanent link">#</a></h2>
 <ul>
 <li>Editor</li>
@@ -2312,7 +2432,7 @@ when multiple files are changed at same time (rename, iedit, etc).</li>
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 31, 2021</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">December 14, 2021</span>
     
   </small>
 </div>
