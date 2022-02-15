@@ -926,7 +926,7 @@
 </code></pre></div></p>
 <hr />
 <h3 id="global">Global<a class="headerlink" href="#global" title="Permanent link">#</a></h3>
-<p>For global settings which should work for all the projects using <code>clojure-lsp</code>, you just need to add the same configs to <code>~/.lsp/config.edn</code> or <code>$XDG_CONFIG_HOME/.lsp/config.edn</code>.</p>
+<p>For global settings which should work for all the projects using <code>clojure-lsp</code>, you just need to add the same configs to <code>~/.lsp/config.edn</code> or <code>$XDG_CONFIG_HOME/clojure-lsp/config.edn</code>.</p>
 <p>For an example of a global <code>config.edn</code>, check <a href="https://github.com/ericdallo/dotfiles/blob/master/.lsp/config.edn">here</a>.</p>
 <hr />
 <h3 id="initializationoptions">InitializationOptions<a class="headerlink" href="#initializationoptions" title="Permanent link">#</a></h3>
@@ -971,6 +971,11 @@
 <td><code>source-aliases</code></td>
 <td>Used for <code>deps.edn</code> or <code>project.clj</code> projects, the aliases which clojure-lsp should get the source-paths besides the root level <code>:paths</code> and <code>:extra-paths</code>. Check the <code>source-aliases discovery</code> section below.</td>
 <td><code>#{:dev :test}</code></td>
+</tr>
+<tr>
+<td><code>use-source-paths-from-classpath</code></td>
+<td>Whether to check source-paths from classpath or manually discover</td>
+<td><code>true</code></td>
 </tr>
 <tr>
 <td><code>linters</code></td>
@@ -1097,15 +1102,20 @@
 <td>A absolute path to a file where clojure-lsp should log.</td>
 <td>A JVM tmp path, usually <code>/tmp/clojure-lsp.*.out</code></td>
 </tr>
+<tr>
+<td><code>api exit-on-errors?</code></td>
+<td>Whether to exit the clojure-lsp process during api/cli call if any error is found, like classpath scan failure</td>
+<td><code>true</code></td>
+</tr>
 </tbody>
 </table>
 <h3 id="classpath-scan">Classpath scan<a class="headerlink" href="#classpath-scan" title="Permanent link">#</a></h3>
 <p>clojure-lsp needs to analyze the whole project and its dependencies to understand your code for most features, during the startup clojure-lsp will try to find the classpath of your project to pass to clj-kondo later. </p>
-<p>You can configure how clojure-lsp should find the classpath with the <code>project-specs</code> setting, check the default <a href="https://github.com/clojure-lsp/clojure-lsp/blob/master/src/clojure_lsp/crawler.clj#L53-L60">here</a>.</p>
+<p>You can configure how clojure-lsp should find the classpath with the <code>project-specs</code> setting, but keep in mind that usually the <a href="https://github.com/clojure-lsp/clojure-lsp/blob/master/lib/src/clojure_lsp/classpath.clj#L108-L123">default</a> is enough, it will also consider the <code>:source-aliases</code> setting if any to find the classpath using those aliases.</p>
 <p>Supported project types at the moment are:</p>
 <ul>
-<li><code>leiningen</code>: If a <code>project.clj</code> is found at the project root, clojure-lsp will run <code>lein classpath</code>.</li>
-<li><code>deps</code>: If a <code>deps.edn</code> is found at the project root, clojure-lsp will run <code>clojure -Spath</code>.</li>
+<li><code>leiningen</code>: If a <code>project.clj</code> is found at the project root, clojure-lsp will run <code>lein classpath</code> with <code>:source-aliases</code> specified if any.</li>
+<li><code>deps</code>: If a <code>deps.edn</code> is found at the project root, clojure-lsp will run <code>clojure -Spath</code> with <code>:source-aliases</code> specified if any.</li>
 <li><code>boot</code>: If a <code>build.boot</code> is found at the project root, clojure-lsp will run <code>boot show --fake-classpath</code>.</li>
 <li><code>shadow-cljs</code>: If a <code>shadow-cljs.edn</code> is found at the project root, clojure-lsp will run <code>npx shadow-cljs classpath</code>.</li>
 <li><code>babashka</code>: If a <code>bb.edn</code> is found at the project root, clojure-lsp will run <code>bb print-deps --format classpath</code>.</li>
@@ -1115,7 +1125,7 @@
 <p>Alternatively, you can configure the <code>project-specs</code> specific for your project, for example:</p>
 <p><code>.lsp/config.edn</code>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="ss">:project-specs</span> <span class="p">[{</span><span class="ss">:project-path</span> <span class="s">&quot;deps.edn&quot;</span>
-                  <span class="ss">:classpath-cmd</span> <span class="p">[</span><span class="s">&quot;clojure&quot;</span> <span class="s">&quot;-A:dev&quot;</span> <span class="s">&quot;-Spath&quot;</span><span class="p">]}]}</span>
+                  <span class="ss">:classpath-cmd</span> <span class="p">[</span><span class="s">&quot;clojure&quot;</span> <span class="s">&quot;-A:my-custom-alias&quot;</span> <span class="s">&quot;-Spath&quot;</span><span class="p">]}]}</span>
 </code></pre></div></p>
 <p>Note that clojure-lsp will make this scan to save the cache when:</p>
 <ul>
@@ -1137,7 +1147,7 @@ properly configured in your <code>.clj-kondo/config.edn</code> file.</p>
 <li><code>:level</code> with available values: <code>:off</code>, <code>:on</code> with default value of <code>:on</code></li>
 <li><code>:report-duplicates</code> which will show all linters of the same symbol instead of showing only the first spot. Available values: <code>true</code>, <code>false</code> with default value of <code>true</code></li>
 <li><code>ns-exclude-regex</code> which will exclude the diagnostics/findings for namespaces that match this regex.</li>
-<li><code>async-custom-lint?</code>, whether to async lint custom clojure-lsp linters like unused-public-var, improves UI feedback for huge clojure buffers. Experimental, default <code>false</code>.</li>
+<li><code>async-custom-lint?</code>, whether to async lint custom clojure-lsp linters like unused-public-var, improves UI feedback for huge clojure buffers. Experimental, default <code>true</code>.</li>
 </ul>
 <p>Example:</p>
 <p><code>.lsp/config.edn</code>
@@ -1184,6 +1194,12 @@ check the <a href="https://github.com/clj-kondo/clj-kondo/blob/master/doc/config
 <h3 id="source-paths-discovery">Source paths discovery<a class="headerlink" href="#source-paths-discovery" title="Permanent link">#</a></h3>
 <p>Some features require know the available source paths of your project, where your code lives, clojure-lsp has some settings for that.</p>
 <ul>
+<li>
+<p>When <code>:use-source-paths-from-classpath</code> setting is enabled (which is true by default), clojure-lsp will get source-paths from the classpath, excluding files that are jar and not under project-root, this usually works for most cases, if not, check <code>:source-aliases</code> or <code>:source-paths</code> settings.</p>
+</li>
+<li>
+<p>If <code>:use-source-paths-from-classpath</code> is manually disabled, clojure-lsp will do the following:</p>
+</li>
 <li>If your project is a <code>lein</code> project, clojure-lsp will scan the <code>project.clj</code> file for <code>:source-paths</code>, <code>:test-paths</code> and the optional <code>source-paths</code> from the specified <code>:source-aliases</code> setting (default <code>#{:dev :test}</code>), unless you specified <code>:source-paths</code> setting manually.</li>
 <li>If your project is a <code>deps.edn</code>, clojure-lsp will scan the <code>deps.edn</code> file for <code>:paths</code>, <code>:extra-paths</code>, <code>:local/root</code> on <code>:deps</code>, <code>:extra-deps</code> and the <code>paths</code>, <code>extra-paths</code>, <code>:local/root</code> in <code>:deps</code> and <code>:extra-deps</code> from the specified <code>:source-aliases</code> setting (default <code>#{:dev :test}</code>), unless you specified <code>:source-paths</code> setting manually.</li>
 <li>If your project is not a <code>deps.edn</code> or <code>lein</code> project, a <code>boot</code> project for example, clojure-lsp will use only the <code>:source-paths</code> setting (default <code>#{"src" "test"}</code>) which should point to the folders containing your clojure code.</li>
@@ -1255,7 +1271,7 @@ The available settings inside <code>:stubs</code> are:</p>
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">December 14, 2021</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 15, 2022</span>
     
   </small>
 </div>
