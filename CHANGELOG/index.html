@@ -1800,8 +1800,9 @@
 <li>Small performance improvement during startup on unused-public-var calculation parallelizing calculations.</li>
 <li>Small performance improvement on code actions calcullation.</li>
 <li>Add <code>:use-source-paths-from-classpath</code> setting defaulting to true, which makes clojure-lsp do not manually discovery source-paths but get from classpath excluding jar files and paths outside project-root. #752 #551</li>
+<li>Improve completion performance when all clojure.core or cljs.core symbols are valid completions. #764 @mainej</li>
 <li>
-<p>Improve completion performance when all clojure.core or cljs.core symbols are valid completions. #764 @mainej</p>
+<p>Fix scenarios where the lint findings in individual files differed from what you'd expect based on the .clj-kondo/config.edn settings.</p>
 </li>
 <li>
 <p>Editor</p>
@@ -1809,6 +1810,8 @@
 <li>Fix exception during code actions calculation when in a invalid code of a map with not even key-pairs.</li>
 <li>Don't return diagnostics for external files like files on jar dependencies, avoiding noise on lint when opening dependencies.</li>
 <li>Support finding implementations of defprotocol and references of defrecord/deftype, implementing LSP method <code>textDocument/implementation</code>. #656</li>
+<li>Make the actions and commands aware of when they were invoked from comments or whitespace. This will allow individual refactorings to be more deliberate about how they handle comments and whitespace. #716 @mainej</li>
+<li>Correctly position the cursor after calling move-coll-entry-down on an entry with leading comments. #758 @mainej</li>
 <li>Don't return completions when invoked from a comment, avoiding performance problems. #756</li>
 <li>Fix small anomalies in parameter names of extracted private functions. #759 @mainej</li>
 <li>Add semantic tokens for protocol implementations methods like defrecord and deftype.</li>
@@ -1820,6 +1823,7 @@
 </li>
 <li>Small performance improvement to <code>format</code>, <code>clean-ns</code>, <code>diagnostics</code>, and <code>rename</code> via parallelizing parts of the logic.</li>
 <li>Fix edn-&gt;json parser of <code>serverInfo/raw</code> for Calva use cljfmt configuration. #763</li>
+<li>Add <code>:cljfmt-raw</code> config to <code>serverInfo/raw</code> for Calva. #768</li>
 </ul>
 <h2 id="20220201-200232">2022.02.01-20.02.32<a class="headerlink" href="#20220201-200232" title="Permanent link">#</a></h2>
 <ul>
@@ -2651,7 +2655,7 @@ when multiple files are changed at same time (rename, iedit, etc).</li>
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 15, 2022</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 17, 2022</span>
     
   </small>
 </div>
