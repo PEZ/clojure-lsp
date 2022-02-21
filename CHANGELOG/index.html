@@ -1797,10 +1797,10 @@
 <li>Fix clean-ns multiple refers sort when there is a alias before the refers.</li>
 <li>Bump clj-kondo from <code>2022.01.15</code> to <code>2022.02.09</code> adding support for implementation analysis and more improvements.</li>
 <li>Medium performance improvement during startup when unused-public-var linter is disabled.</li>
-<li>Small performance improvement during startup on unused-public-var calculation parallelizing calculations.</li>
+<li>Medium performance improvement during startup on unused-public-var calculation parallelizing calculations.</li>
 <li>Small performance improvement on code actions calcullation.</li>
 <li>Add <code>:use-source-paths-from-classpath</code> setting defaulting to true, which makes clojure-lsp do not manually discovery source-paths but get from classpath excluding jar files and paths outside project-root. #752 #551</li>
-<li>Improve completion performance when all clojure.core or cljs.core symbols are valid completions. #764 @mainej</li>
+<li>Improve completion performance when all clojure.core or cljs.core symbols are valid completions. #764, #771 @mainej</li>
 <li>
 <p>Fix scenarios where the lint findings in individual files differed from what you'd expect based on the .clj-kondo/config.edn settings.</p>
 </li>
@@ -1824,6 +1824,7 @@
 <li>Small performance improvement to <code>format</code>, <code>clean-ns</code>, <code>diagnostics</code>, and <code>rename</code> via parallelizing parts of the logic.</li>
 <li>Fix edn-&gt;json parser of <code>serverInfo/raw</code> for Calva use cljfmt configuration. #763</li>
 <li>Add <code>:cljfmt-raw</code> config to <code>serverInfo/raw</code> for Calva. #768</li>
+<li>Add support for passing specific <code>--filenames</code> for most actions. #775</li>
 </ul>
 <h2 id="20220201-200232">2022.02.01-20.02.32<a class="headerlink" href="#20220201-200232" title="Permanent link">#</a></h2>
 <ul>
@@ -2655,7 +2656,7 @@ when multiple files are changed at same time (rename, iedit, etc).</li>
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 18, 2022</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 21, 2022</span>
     
   </small>
 </div>
