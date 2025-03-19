@@ -439,6 +439,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#clojure-lspdifferent-aliases" class="md-nav__link">
+    clojure-lsp/different-aliases
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -625,6 +632,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#changing-settings" class="md-nav__link">
+    Changing settings
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opentelemetry-integration" class="md-nav__link">
+    OpenTelemetry integration
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -645,7 +666,7 @@
 
   <li class="md-nav__item">
     <a href="../clients/" class="md-nav__link">
-      Clients
+      Clients (Editors)
     </a>
   </li>
 
@@ -964,6 +985,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#clojure-lspdifferent-aliases" class="md-nav__link">
+    clojure-lsp/different-aliases
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1150,6 +1178,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#changing-settings" class="md-nav__link">
+    Changing settings
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opentelemetry-integration" class="md-nav__link">
+    OpenTelemetry integration
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1173,7 +1215,7 @@
                 
                 
                 <h1 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">#</a></h1>
-<p><code>clojure-lsp</code> settings are picked up only on server start and can be configured in 4 ways:</p>
+<p><code>clojure-lsp</code> settings are picked up only on server start (but they can be <a href="#changing-settings">changed</a> on runtime) and can be configured in 4 ways:</p>
 <ul>
 <li><a href="#project">Project configuration</a></li>
 <li><a href="#global">Global configuration</a></li>
@@ -1235,6 +1277,11 @@
 <td><code>:additional-snippets</code></td>
 <td>Additional user snippets to be available during completing, check the snippets section below</td>
 <td><code>[]</code></td>
+</tr>
+<tr>
+<td><code>:add-missing :add-to-rcf</code></td>
+<td>Missing requires and imports will be added to the top of the comment form for code actions and completions from within a comment form, can be <code>:ask</code>, <code>:never</code> or <code>:always</code>.</td>
+<td><code>:ask</code></td>
 </tr>
 <tr>
 <td><code>:api :exit-on-errors?</code></td>
@@ -1314,6 +1361,11 @@
 <tr>
 <td><code>:hover</code> <code>:hide-file-location?</code></td>
 <td>Whether to show the full filename and path on hover.</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>:hover</code> <code>:hide-signature-call?</code></td>
+<td>Whether to show the surrounding call on hover.</td>
 <td><code>false</code></td>
 </tr>
 <tr>
@@ -1411,11 +1463,41 @@
 <td>Whether to use <code>^:private</code> metadata for refactorings instead of <code>defn-</code></td>
 <td><code>false</code></td>
 </tr>
+<tr>
+<td><code>:analysis</code> <code>:keywords</code> <code>:definitions</code></td>
+<td>Whether to enable keyword definitions analysis for performance.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>:analysis</code> <code>:keywords</code> <code>:usages</code></td>
+<td>Whether to enable keyword usages analysis for performance.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>:analysis</code> <code>:java</code> <code>:class-definitions</code></td>
+<td>Whether to enable java class definitions analysis for performance.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>:analysis</code> <code>:java</code> <code>:member-definitions</code></td>
+<td>Whether to enable java member definitions analysis for performance.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>:analysis</code> <code>:symbols</code></td>
+<td>Whether to enable symbols analysis for performance.</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>:otlp</code></td>
+<td><a href="https://opentelemetry.io/">OpenTelemetry</a> related settings, check the <a href="#opentelemetry-integration">Opentelemetry</a> section below.</td>
+<td><code>false</code></td>
+</tr>
 </tbody>
 </table>
 <h3 id="classpath-scan">Classpath scan<a class="headerlink" href="#classpath-scan" title="Permanent link">#</a></h3>
 <p>clojure-lsp needs to analyze the whole project and its dependencies to understand your code for most features, during the startup clojure-lsp will try to find the classpath of your project to pass to clj-kondo later.</p>
-<p>You can configure how clojure-lsp should find the classpath with the <code>project-specs</code> setting, but keep in mind that usually the <a href="https://github.com/clojure-lsp/clojure-lsp/blob/master/lib/src/clojure_lsp/classpath.clj#L169">default</a> is enough, it will also consider the <code>:source-aliases</code> setting if any to find the classpath using those aliases.</p>
+<p>You can configure how clojure-lsp should find the classpath with the <code>project-specs</code> setting, but keep in mind that usually the <a href="https://github.com/clojure-lsp/clojure-lsp/blob/master/lib/src/clojure_lsp/classpath.clj#L184">default</a> is enough, it will also consider the <code>:source-aliases</code> setting if any to find the classpath using those aliases.</p>
 <p>Supported project types at the moment are:</p>
 <ul>
 <li><code>leiningen</code>: If a <code>project.clj</code> is found at the project root, clojure-lsp will run <code>lein classpath</code> with <code>:source-aliases</code> specified if any.</li>
@@ -1429,6 +1511,7 @@
 <p>Alternatively, you can configure the <code>project-specs</code> specific for your project, for example:</p>
 <p><code>.lsp/config.edn</code>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="ss">:project-specs</span> <span class="p">[{</span><span class="ss">:project-path</span> <span class="s">&quot;deps.edn&quot;</span>
+                  <span class="ss">:env</span> <span class="p">{</span><span class="s">&quot;PATH&quot;</span> <span class="s">&quot;/some/custom/path&quot;</span><span class="p">}</span> <span class="c1">;; optional if you want to override the PATH used in the classpath-cmd</span>
                   <span class="ss">:classpath-cmd</span> <span class="p">[</span><span class="s">&quot;clojure&quot;</span> <span class="s">&quot;-A:my-custom-alias&quot;</span> <span class="s">&quot;-Spath&quot;</span><span class="p">]}]}</span>
 </code></pre></div></p>
 <p>Note that clojure-lsp will make this scan to save the cache when:</p>
@@ -1471,7 +1554,7 @@ linter enabled via `ale` will only conflict with the built-in clj-kondo bundled 
 <p>For more information about all clj-kondo available configurations,
 check the <a href="https://github.com/clj-kondo/clj-kondo/blob/master/doc/config.md">clj-kondo configuration section</a></p>
 <h5 id="custom-clj-kondo-linters">Custom clj-kondo linters<a class="headerlink" href="#custom-clj-kondo-linters" title="Permanent link">#</a></h5>
-<p>Clojure-lsp register custom linters in clj-kondo, for specifically those linters, configurations should be done on clj-kondo config files, e.g. (<code>&lt;project&gt;/.clj-kondo/config.edn</code>), below are the custom linters used:</p>
+<p>Clojure-lsp register custom linters in clj-kondo, for specifically those linters, configurations should be done on clj-kondo config files, e.g. (<code>&lt;project&gt;/.clj-kondo/config.edn</code>). Note that configuring these custom linters via clj-kondo's <a href="https://github.com/clj-kondo/clj-kondo/blob/master/doc/config.md#metadata-config">ns metadata config</a> is <em>not</em> supported. Below are the custom linters used:</p>
 <h6 id="clojure-lspunused-public-var">clojure-lsp/unused-public-var<a class="headerlink" href="#clojure-lspunused-public-var" title="Permanent link">#</a></h6>
 <p>A custom linter that reports public functions/vars not used over the project.</p>
 <p>It has the possible key/values:</p>
@@ -1482,6 +1565,7 @@ check the <a href="https://github.com/clj-kondo/clj-kondo/blob/master/doc/config
 <li><code>:exclude-when-defined-by</code> excludes this linter when your var is defined by a macro for example, like <code>#{my-ns/deftest}</code>.</li>
 <li><code>:exclude-when-defined-by-regex</code> same as above but with support for regex, like <code>#{"my-ns/.*"}</code>.</li>
 <li><code>:exclude-when-contains-meta</code> excludes this linter when your var has any of these metas, like <code>#{:my-meta}</code>.</li>
+<li><code>:ignore-test-references?</code> whether to ignore test references of a var-definition when considering if the var is unused. Useful to check functions that have tests but are not being used in the source code. Default: <code>false</code>.</li>
 </ul>
 <p>Example:</p>
 <p><code>.clj-kondo/config.edn</code>
@@ -1493,10 +1577,28 @@ check the <a href="https://github.com/clj-kondo/clj-kondo/blob/master/doc/config
                                            <span class="ss">:exclude-regex</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;my-integration-tests.*&quot;</span><span class="p">}</span>
                                            <span class="ss">:exclude-when-defined-by</span> <span class="o">#</span><span class="p">{</span><span class="nv">my-ns/defflow</span><span class="p">}</span>
                                            <span class="ss">:exclude-when-defined-by-regex</span> <span class="o">#</span><span class="p">{</span><span class="s">&quot;my.custom/macro-.*&quot;</span><span class="p">}</span>
-                                           <span class="ss">:exclude-when-contains-meta</span> <span class="o">#</span><span class="p">{</span><span class="ss">:my-cool-meta</span><span class="p">}}}}</span>
+                                           <span class="ss">:exclude-when-contains-meta</span> <span class="o">#</span><span class="p">{</span><span class="ss">:my-cool-meta</span><span class="p">}</span>
+                                           <span class="ss">:ignore-test-references?</span> <span class="nv">true</span><span class="p">}}}</span>
 </code></pre></div></p>
+<h6 id="clojure-lspdifferent-aliases">clojure-lsp/different-aliases<a class="headerlink" href="#clojure-lspdifferent-aliases" title="Permanent link">#</a></h6>
+<p>Sometimes, it's desirable to use the same alias across namespaces to enhance readability and reduce cognitive load.</p>
+<p>It has the possible keys/values:</p>
+<ul>
+<li><code>:level</code> with available values: <code>:info</code>, <code>:warning</code>, <code>:error</code> or <code>:off</code> with default value of <code>:off</code>.</li>
+<li><code>:exclude-aliases</code> ignores the symbols provided in a set, example <code>#{sut}</code></li>
+</ul>
 <h4 id="clj-depend">clj-depend<a class="headerlink" href="#clj-depend" title="Permanent link">#</a></h4>
 <p>clojure-lsp uses <a href="https://github.com/clj-depend/clj-depend">clj-depend</a> when any clj-depend config is found either on clojure-lsp config or as a <code>.clj-depend/config.edn</code> file.</p>
+<p>The clj-depend config should be within the <code>:config</code> key.</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="ss">:config</span> <span class="p">{</span><span class="ss">:layers</span> <span class="p">{</span><span class="ss">:controller</span> <span class="p">{</span><span class="ss">:defined-by</span>      <span class="s">&quot;.*\\.controller\\..*&quot;</span>
+                                <span class="ss">:accesses-layers</span> <span class="o">#</span><span class="p">{</span><span class="ss">:logic</span><span class="p">}}</span>
+                   <span class="ss">:logic</span>      <span class="p">{</span><span class="ss">:defined-by</span>      <span class="s">&quot;.*\\.logic\\..*&quot;</span>
+                                <span class="ss">:accesses-layers</span> <span class="o">#</span><span class="p">{</span><span class="ss">:model</span><span class="p">}}}}}</span>
+</code></pre></div>
+<p>When you need to inform some other parameter for clj-depend that is not a config, you can inform it this way:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="ss">:config</span>    <span class="p">{</span>,,,<span class="p">}</span>
+ <span class="ss">:snapshot?</span> <span class="nv">true</span><span class="p">}</span>
+</code></pre></div>
 <h4 id="disable-linter">Disable linter<a class="headerlink" href="#disable-linter" title="Permanent link">#</a></h4>
 <p>It's not recommended to disable a linter as it provides helpful smart checks/suggestions for your code, even so it's possible via the following config:</p>
 <p><code>.lsp/config.edn</code>
@@ -1508,7 +1610,7 @@ check the <a href="https://github.com/clj-kondo/clj-kondo/blob/master/doc/config
 <p>Some features require know the available source paths of your project, where your code lives, clojure-lsp has some settings for that.</p>
 <ul>
 <li>
-<p>By default, clojure-lsp will infer source-paths from the classpath, excluding files that are jar and not under project-root, this usually works for most cases, if not, check next items. </p>
+<p>By default, clojure-lsp will infer source-paths from the classpath, excluding files that are jar and not under project-root, this usually works for most cases, if not, check next items.</p>
 </li>
 <li>
 <p>You can specify a <code>source-aliases</code> setting, making clojure-lsp use those alias when conmputing the classpath, e.g. <code>#{:src :test :my-alias}</code></p>
@@ -1535,15 +1637,15 @@ Check <code>;; good</code> on <a href="https://github.com/bbatsov/clojure-style-
 <p>How to indent classes inside package imports from :import form.
 Note: package imports with only one class will keep indentation: Ex: <code>[java.io File]</code></p>
 <h5 id="next-line_1"><code>next-line</code><a class="headerlink" href="#next-line_1" title="Permanent link">#</a></h5>
-<p>Keep the first class inside a package import on the next line and next children following the same indentation. Ex: </p>
-<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="ss">:import</span> 
+<p>Keep the first class inside a package import on the next line and next children following the same indentation. Ex:</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="ss">:import</span>
   <span class="p">[</span><span class="nv">java.io</span>
     <span class="nv">File</span>
     <span class="nv">Foo</span><span class="p">])</span>
 </code></pre></div>
 <h5 id="same-line_1"><code>same-line</code><a class="headerlink" href="#same-line_1" title="Permanent link">#</a></h5>
-<p>Keep the first class inside a package import on the same line and next children following the same indentation. Ex: </p>
-<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="ss">:import</span> 
+<p>Keep the first class inside a package import on the same line and next children following the same indentation. Ex:</p>
+<div class="highlight"><pre><span></span><code><span class="p">(</span><span class="ss">:import</span>
   <span class="p">[</span><span class="nv">java.io</span> <span class="nv">File</span>
            <span class="nv">Foo</span><span class="p">])</span>
 </code></pre></div>
@@ -1592,7 +1694,7 @@ Note: package imports with only one class will keep indentation: Ex: <code>[java
 <div class="highlight"><pre><span></span><code><span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">|</span><span class="p">]</span> <span class="p">(</span><span class="nb">+ </span><span class="mi">1</span> <span class="mi">2</span><span class="p">))</span>
 </code></pre></div>
 <h3 id="java-support">Java support<a class="headerlink" href="#java-support" title="Permanent link">#</a></h3>
-<p>At the moment, clojure-lsp supports find definition of java classes only, methods, completion and other features are not supported yet.</p>
+<p>At the moment, clojure-lsp only supports find definition of java classes and completion of fields/methods when it detects a Java class (mostly from static classes usages), other features are not supported yet.</p>
 <p>When a find-definition of a java class is triggered, clojure-lsp checks the following:</p>
 <ul>
 <li>If the java source(<code>.java</code>) is available on classpath, clojure-lsp just return that file location.</li>
@@ -1600,7 +1702,7 @@ Note: package imports with only one class will keep indentation: Ex: <code>[java
 <li>If <code>:java :decompile-jar-as-project?</code> is enabled, clojure-lsp decompiles the whole jar at the global cache folder (<code>~/.cache/clojure-lsp/java</code>)</li>
 <li>If <code>:java :decompile-jar-as-project?</code> is disabled, clojure-lsp decompiles the class file at the local cache folder (<code>.lsp/.cache/java</code>)</li>
 <li>If the java class is from JDK (e.g. <code>java.util.UUID</code>), clojure-lsp tries a few things to be able to sucessfully find the definition, following this waterfall decision:<ul>
-<li>Most JRE installations contains the java source code in a <code>src.zip</code>, clojure-lsp tries to find it via <code>:java :home-path</code> setting if provided, <code>JAVA_HOME</code> env var or <code>java</code> command on <code>PATH</code>, if found clojure-lsp extracts to its global cache config (XDG_CONFIG or <code>~/.config/clojure-lsp</code>) to be used in other projects.</li>
+<li>Most JRE installations contains the java source code in a <code>src.zip</code>, clojure-lsp tries to find it via <code>:java :home-path</code> setting if provided, <code>JAVA_HOME</code> env var or <code>java</code> command on <code>PATH</code>, if found clojure-lsp extracts to its global cache dir ($XDG_CACHE or <code>~/.cache/clojure-lsp</code>) to be used in other projects.</li>
 <li>If <code>src.zip</code> is not found or user specified a custom <code>:java :jdk-source-uri</code>, clojure-lsp tries to download the source from that uri, only if <code>:java :download-jdk-source?</code> is enabled, disabled by default, extracting to the global cache dir later.</li>
 </ul>
 </li>
@@ -1625,6 +1727,17 @@ The available settings inside <code>:stubs</code> are:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="ss">:stubs</span> <span class="p">{</span><span class="ss">:extra-dirs</span> <span class="p">[</span><span class="s">&quot;.my-stubs&quot;</span><span class="p">]}}</span>
 </code></pre></div>
 <p>clojure-lsp will generate no stubs with that, but analyze that folder and consider it as manual generated stubs.</p>
+<h3 id="changing-settings">Changing settings<a class="headerlink" href="#changing-settings" title="Permanent link">#</a></h3>
+<p><code>clojure-lsp</code> supports <code>workspace/didChangeConfiguration</code> commands to change the server settings while it is running, everything inside the <code>:settings</code> map can be changed, but not outside it (the project root for example).</p>
+<h3 id="opentelemetry-integration">OpenTelemetry integration<a class="headerlink" href="#opentelemetry-integration" title="Permanent link">#</a></h3>
+<p><code>clojure-lsp</code> has support for <a href="https://opentelemetry.io/">OpenTelemetry</a>(otlp), if configured, all logs will use the otlp logger API.</p>
+<p>To configure, set <code>:otlp :enable</code> to <code>true</code> and configure your OTLP collector via <code>:otlp :config</code> map following <a href="https://opentelemetry.io/docs/languages/java/configuration/#properties-general">otlp auto-configure settings</a>. Example:</p>
+<p><code>.lsp/config.edn</code>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="ss">:otlp</span> <span class="p">{</span><span class="ss">:enable</span> <span class="nv">true</span>
+        <span class="ss">:config</span> <span class="p">{</span><span class="s">&quot;otel.exporter.otlp.logs.protocol&quot;</span> <span class="s">&quot;http/protobuf&quot;</span>
+                 <span class="s">&quot;otel.exporter.otlp.logs.endpoint&quot;</span> <span class="s">&quot;https://my-otlp-endpoint.com/foo&quot;</span>
+                 <span class="s">&quot;otel.exporter.otlp.headers&quot;</span> <span class="s">&quot;Authorization=Bearer 123456&quot;</span><span class="p">}}}</span>
+</code></pre></div></p>
                 
                   
                     
@@ -1633,7 +1746,7 @@ The available settings inside <code>:stubs</code> are:</p>
 <div class="md-source-date">
   <small>
     
-      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 11, 2023</span>
+      Last update: <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">March 19, 2025</span>
     
   </small>
 </div>
@@ -1677,7 +1790,7 @@ The available settings inside <code>:stubs</code> are:</p>
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Clients
+                Clients (Editors)
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

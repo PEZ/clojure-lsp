@@ -22,10 +22,12 @@
                 :import-classes {:classes-per-line 3} ;; -1 for all in single line
                 :refer {:max-line-length 80}}}
  :hover {:hide-file-location? false
+         :hide-signature-call? false
          :arity-on-same-line? false
          :clojuredocs true}
  :completion {:additional-edits-warning-text nil
               :analysis-type :fast-but-stale}
+ :add-missing {:add-to-rcf :ask}
  :java {:jdk-source-uri "https://raw.githubusercontent.com/clojure-lsp/jdk-source/main/openjdk-19/reduced/source.zip" ; "file:///usr/lib/jvm/java-17-openjdk/lib/src.zip"
         :home-path nil ;; jdk-source-uri takes precedence
         :download-jdk-source? false
@@ -51,5 +53,12 @@
  :show-docs-arity-on-same-line? false ; deprecated, will be removed soon, use :hover :arity-on-same-line?
  :lens-segregate-test-references true ; deprecated, will be removed soon, use :code-lens :segregate-test-references instead.
  :copy-kondo-configs? true
+ :analysis {:keywords {:definitions true
+                       :usages true}
+            :java {:class-definitions true
+                   :member-definitions true}
+            :symbols true}
+ :otlp {:enabled false
+        :config {}} ;; map with properties to configure opentelemetry log via timbre.
  :cache-path ".lsp/.cache"
  :log-path "/tmp/clojure-lsp.*.out"}
